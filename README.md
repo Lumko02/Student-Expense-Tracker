@@ -1,170 +1,71 @@
-A beginner-friendly command-line application built with Dart that helps students manage their budget and keep track of their daily expenses.
+<p align="center">
+  <img alt="Dart" src="https://img.shields.io/badge/Dart-Programming-0175C2?style=flat-square" />
+  <img alt="Status" src="https://img.shields.io/badge/Status-Work_in_progress-yellow?style=flat-square" />
+</p>
 
-📌 Project Overview
+# 🎒 STUDENT EXPENSE TRACKER
 
-Managing money as a student can be difficult, especially when small expenses add up throughout the month.
+A beginner CLI app in Dart to track expenses and manage a monthly budget.
 
-The Student Expense Tracker allows users to:
+---
 
-Set a monthly budget
-Add expenses
-View all recorded expenses
-Calculate total spending
-Check their remaining budget
-Delete expenses
-Exit the application
+## ✨ Quick Links
 
-The project is designed to practise fundamental Dart programming and Object-Oriented Programming (OOP) concepts.
+- [Features](#features)
+- [Install](#install)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Testing](#testing)
+- [Project Structure](#project-structure)
+- [Roadmap](#roadmap)
 
-🎯 Learning Objectives
+---
 
-By completing this project, I aim to practise:
+## 🚀 Features
 
-Variables and data types
-Conditional statements
-Loops
-Functions
-Lists
-Classes and objects
-Constructors
-Methods
-User input
-Error handling
-Object-Oriented Programming
-Unit testing
-🛠️ Technologies
-Dart
-Dart SDK
-Dart testing framework
-Command Line Interface (CLI)
-📂 Project Structure
-student_expense_tracker/
-│
-├── bin/
-│   └── student_expense_tracker.dart
-│
-├── lib/
-│   └── expense.dart
-│
-├── test/
-│   └── expense_test.dart
-│
-├── pubspec.yaml
-└── README.md
-⚙️ Features
-1. Set Budget
+- Set a monthly budget
+- Add an expense (description, amount, category)
+- View recorded expenses
+- View total spent and remaining budget
+- Delete an expense via its index
 
-The user can enter their monthly budget.
+---
 
-Example:
+## 🛠 Install
 
-Enter your monthly budget: R2000
-2. Add Expense
+1. Install the Dart SDK: https://dart.dev/get-dart
+2. From the project root, fetch dependencies:
 
-The user can record an expense by entering:
+```bash
+dart pub get
+```
 
-Description
-Amount
-Category
+---
 
-Example:
+## ▶️ Usage
 
-Expense description: Lunch
-Amount: R50
-Category: Food
+Run the app from the project root:
 
-
-Expense added successfully!
-3. View Expenses
-
-The user can see all their recorded expenses.
-
-Example:
-
---------- EXPENSES ---------
-
-
-1. Transport - R35 - Transport
-2. Lunch     - R50 - Food
-3. Data      - R99 - Internet
-
-
-Total expenses: R184
-4. View Budget Summary
-
-The application calculates how much the user has spent and how much money remains.
-
-Example:
-
-Budget:       R2000
-Spent:        R184
-Remaining:    R1816
-5. Delete Expense
-
-The user can remove an expense from their list.
-
-Example:
-
-Enter expense number to delete: 2
-
-
-"Lunch" deleted successfully.
-6. Exit
-
-The user can safely exit the application.
-
-Thank you for using Student Expense Tracker!
-Goodbye!
-🧱 Expense Class
-
-Each expense should contain:
-
-Expense
-├── description
-├── amount
-└── category
-
-For example:
-
-Description: Lunch
-Amount: R50
-Category: Food
-
-Expenses will be stored in a list so that multiple expenses can be managed.
-
-🧪 Testing
-
-The project should include unit tests for important functionality.
-
-Tests should cover things such as:
-
-Creating an expense
-Correctly storing expense information
-Calculating total expenses
-Calculating remaining budget
-Adding expenses
-Removing expenses
-Handling invalid input
-
-Run the tests with:
-
-dart test
-▶️ Running the Application
-
-Make sure Dart is installed.
-
-Run the application from the project directory:
-
+```bash
 dart run
+```
 
-Alternatively:
+Or run the main script directly:
 
+```bash
 dart run bin/student_expense_tracker.dart
-📋 Example Menu
+```
+
+Follow the interactive menu to set a budget, add expenses, view summaries, or delete entries.
+
+---
+
+## 🧾 Examples
+
+```
 =============================
      STUDENT EXPENSE TRACKER
 =============================
-
 
 1. Set budget
 2. Add expense
@@ -174,37 +75,50 @@ dart run bin/student_expense_tracker.dart
 6. Delete expense
 7. Exit
 
-
 Choose an option:
-🚀 Future Improvements
+```
 
-Once the basic version is complete, the application could be improved by adding:
+When adding an expense you'll be prompted for a description, amount (numbers only), and a category (e.g., Food, Transport).
 
-Expense editing
-Expense search
-Category filtering
-Spending statistics
-Expense dates
-JSON file storage
-Persistent data
-Monthly reports
-A graphical user interface using Flutter
-📱 Future Flutter Version
+---
 
-The long-term goal is to convert this command-line Dart application into a Flutter mobile application.
+## ✅ Testing
 
-The Flutter version could include:
+Run unit tests under `test/`:
 
-Dashboard
-Budget overview
-Expense list
-Add expense screen
-Expense categories
-Spending charts
-Persistent storage
+```bash
+dart test
+```
 
-This allows the project to grow from a simple beginner Dart project into a complete mobile application.
+---
 
-👩🏽‍💻 Author
+## 📁 Project Structure
 
-Lumko Majozi
+```
+student_expense_tracker/
+├── bin/
+│   └── student_expense_tracker.dart
+├── lib/
+│   └── expense.dart
+├── test/
+│   └── expense_test.dart
+├── pubspec.yaml
+└── README.md
+```
+
+---
+
+## 🛣 Roadmap
+
+- Edit expenses
+- Category filters and search
+- Persistent storage (JSON, SQLite)
+- Monthly reports and charts
+- Flutter UI for mobile
+
+---
+
+## ✍️ Author
+
+Lumko Saneliso Majozi
+
