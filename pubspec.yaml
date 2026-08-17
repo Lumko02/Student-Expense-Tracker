@@ -1,0 +1,9 @@
+name: student_expense_tracker
+
+description: A beginner-friendly Dart command-line application for managing student expenses.
+
+environment:
+  sdk: ^3.13.0
+
+dev_dependencies:
+  test: ^1.26.3

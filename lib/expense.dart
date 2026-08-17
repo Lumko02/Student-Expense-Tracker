@@ -3,9 +3,5 @@ class Expense {
   double amount;
   String category;
 
-  Expense(String description, double amount, String category) {
-    this.description = description;
-    this.amount = amount;
-    this.category = category;
-  }
+  Expense(this.description, this.amount, this.category);
 }
