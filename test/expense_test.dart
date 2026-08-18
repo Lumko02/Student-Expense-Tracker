@@ -9,4 +9,10 @@ void main() {
     expect(expense.amount, 50.0);
     expect(expense.category, 'Food');
   });
+
+  test('Expense has a readable description', () {
+    final expense = Expense('Lunch', 50.0, 'Food');
+
+    expect(expense.toString(), 'Lunch - R50.0 - Food');
+  });
 }

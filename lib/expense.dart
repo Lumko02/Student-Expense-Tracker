@@ -4,4 +4,9 @@ class Expense {
   String category;
 
   Expense(this.description, this.amount, this.category);
+
+  @override
+  String toString() {
+    return '$description - R$amount - $category';
+  }
 }
