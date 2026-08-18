@@ -22,4 +22,15 @@ void main() {
 
     expect(manager.calculateTotal(), 184.0);
   });
+
+  test('Calculate remaining budget', () {
+    final manager = ExpenseManager();
+
+    manager.budget = 2000.0;
+
+    manager.addExpense(Expense('Lunch', 50.0, 'Food'));
+    manager.addExpense(Expense('Transport', 35.0, 'Transport'));
+
+    expect(manager.calculateRemainingBudget(), 1915.0);
+  });
 }

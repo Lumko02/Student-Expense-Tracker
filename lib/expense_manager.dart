@@ -2,6 +2,7 @@ import 'expense.dart';
 
 class ExpenseManager {
   final List<Expense> expenses = [];
+  double budget = 0;
 
   void addExpense(Expense expense) {
     expenses.add(expense);
@@ -14,5 +15,9 @@ class ExpenseManager {
       total += expense.amount;
     }
     return total;
+  }
+
+  double calculateRemainingBudget() {
+    return budget - calculateTotal();
   }
 }
