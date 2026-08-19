@@ -33,4 +33,28 @@ void main() {
 
     expect(manager.calculateRemainingBudget(), 1915.0);
   });
+
+  test('Delete an expense', () {
+    final manager = ExpenseManager();
+
+    manager.addExpense(Expense('Lunch', 50.0, 'Food'));
+    manager.addExpense(Expense('Transport', 35.0, 'Transport'));
+    manager.addExpense(Expense('Data', 99.0, 'Internet'));
+
+    manager.deleteExpense(1);
+
+    expect(manager.expenses.length, 2);
+    expect(manager.expenses[0].description, 'Lunch');
+    expect(manager.expenses[1].description, 'Data');
+  });
+
+  test('Do not delete an expense with an invalid index', () {
+    final manager = ExpenseManager();
+
+    manager.addExpense(Expense('Lunch', 50.0, 'Food'));
+
+    manager.deleteExpense(5);
+
+    expect(manager.expenses.length, 1);
+  });
 }

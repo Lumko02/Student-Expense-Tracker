@@ -20,4 +20,10 @@ class ExpenseManager {
   double calculateRemainingBudget() {
     return budget - calculateTotal();
   }
+
+  void deleteExpense(int index) {
+    if (index >= 0 && index < expenses.length) {
+      expenses.removeAt(index);
+    }
+  }
 }
