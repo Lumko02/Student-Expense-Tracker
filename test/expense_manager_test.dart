@@ -91,4 +91,23 @@ void main() {
     expect(foodExpenses[0].description, 'Lunch');
     expect(foodExpenses[1].description, 'Takeaway');
   });
+
+  test('Calculate total for a category', () {
+    final manager = ExpenseManager();
+
+    manager.addExpense(
+      Expense('Lunch', 50.0, 'Food'),
+    );
+
+    manager.addExpense(
+      Expense('Takeaway', 80.0, 'Food'),
+    );
+
+    manager.addExpense(
+      Expense('Uber', 100.0, 'Transport'),
+    );
+
+    expect(manager.calculateCategoryTotal('Food'), 130.0);
+    expect(manager.calculateCategoryTotal('Transport'), 100.0);
+  });
 }

@@ -41,6 +41,17 @@ class ExpenseManager {
     }
 
     return result;
+  }
 
+  double calculateCategoryTotal(String category) {
+    double total = 0;
+
+    for (final expense in expenses) {
+      if (expense.category == category) {
+        total += expense.amount;
+      }
+    }
+
+    return total;
   }
 }
