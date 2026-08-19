@@ -26,4 +26,21 @@ class ExpenseManager {
       expenses.removeAt(index);
     }
   }
+
+  bool hasExpenses() {
+    return expenses.isNotEmpty;
+  }
+
+  List<Expense> getExpensesByCategory(String category) {
+    final result = <Expense>[];
+
+    for (final expense in expenses) {
+      if (expense.category == category) {
+        result.add(expense);
+      }
+    }
+
+    return result;
+
+  }
 }

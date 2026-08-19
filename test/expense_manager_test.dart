@@ -57,4 +57,38 @@ void main() {
 
     expect(manager.expenses.length, 1);
   });
+
+  test('Check if expenses exist', () {
+    final manager = ExpenseManager();
+
+    expect(manager.hasExpenses(), false);
+
+    manager.addExpense(
+      Expense('Lunch', 50.0, 'Food'),
+    );
+
+    expect(manager.hasExpenses(), true);
+  });
+
+  test('Get expenses by category', () {
+    final manager = ExpenseManager();
+
+    manager.addExpense(
+      Expense('Lunch', 50.0, 'Food'),
+    );
+
+    manager.addExpense(
+      Expense('Uber', 100.0, 'Transport'),
+    );
+
+    manager.addExpense(
+      Expense('Takeaway', 80.0, 'Food'),
+    );
+
+    final foodExpenses = manager.getExpensesByCategory('Food');
+
+    expect(foodExpenses.length, 2);
+    expect(foodExpenses[0].description, 'Lunch');
+    expect(foodExpenses[1].description, 'Takeaway');
+  });
 }
