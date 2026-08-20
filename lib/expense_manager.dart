@@ -54,4 +54,17 @@ class ExpenseManager {
 
     return total;
   }
+
+  void editExpense(
+      int index,
+      String description,
+      double amount,
+      String category,
+      ) {
+    if (index >= 0 && index < expenses.length) {
+      expenses[index].description = description;
+      expenses[index].amount = amount;
+      expenses[index].category = category;
+    }
+  }
 }

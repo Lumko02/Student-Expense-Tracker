@@ -110,4 +110,23 @@ void main() {
     expect(manager.calculateCategoryTotal('Food'), 130.0);
     expect(manager.calculateCategoryTotal('Transport'), 100.0);
   });
+
+  test('Edit an expense', () {
+    final manager = ExpenseManager();
+
+    manager.addExpense(
+      Expense('Lunch', 50.0, 'Food'),
+    );
+
+    manager.editExpense(
+      0,
+      'Dinner',
+      80.0,
+      'Food',
+    );
+
+    expect(manager.expenses[0].description, 'Dinner');
+    expect(manager.expenses[0].amount, 80.0);
+    expect(manager.expenses[0].category, 'Food');
+  });
 }
