@@ -35,10 +35,43 @@ State<ExpenseHomePage> createState() => _ExpenseHomePageState();
 class _ExpenseHomePageState extends State<ExpenseHomePage> {
 final ExpenseManager _expenseManager = ExpenseManager();
 
+Widget _buildSummaryCard(String title, double amount) {
+  return Container(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),
+      color: Theme.of(context)
+          .colorScheme
+          .surfaceContainerHighest,
+    ),
+    child: Column(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'R${amount.toStringAsFixed(2)}',
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 final TextEditingController _descriptionController =
 TextEditingController();
 
 final TextEditingController _amountController =
+TextEditingController();
+
+final TextEditingController _budgetController =
 TextEditingController();
 
 String _selectedCategory = 'Food';
@@ -50,6 +83,31 @@ final List<String> _categories = [
 'Study',
 'Other',
 ];
+
+void _setBudget() {
+  final budget = double.tryParse(_budgetController.text);
+
+  if (budget == null || budget <= 0) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please enter a valid budget amount.'),
+      ),
+    );
+    return;
+  }
+
+  setState(() {
+    _expenseManager.budget = budget;
+  });
+
+  _budgetController.clear();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Budget updated successfully!'),
+    ),
+  );
+}
 
 void _addExpense() {
 final description = _descriptionController.text.trim();
@@ -215,9 +273,10 @@ return Icons.receipt;
 
 @override
 void dispose() {
-_descriptionController.dispose();
-_amountController.dispose();
-super.dispose();
+  _descriptionController.dispose();
+  _amountController.dispose();
+  _budgetController.dispose();
+  super.dispose();
 }
 
 @override
@@ -234,32 +293,50 @@ body: Padding(
 padding: const EdgeInsets.all(16),
 child: Column(
 children: [
-Card(
-child: Padding(
-padding: const EdgeInsets.all(20),
-child: Column(
-children: [
-const Text(
-'Total Expenses',
-style: TextStyle(
-fontSize: 18,
-fontWeight: FontWeight.bold,
-),
-),
-const SizedBox(height: 8),
-Text(
-'R${total.toStringAsFixed(2)}',
-style: Theme.of(context)
-    .textTheme
-    .headlineMedium
-    ?.copyWith(
-fontWeight: FontWeight.bold,
-),
-),
-],
-),
-),
-),
+  Card(
+    child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          const Text(
+            'Monthly Budget',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'R${_expenseManager.budget.toStringAsFixed(2)}',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: _buildSummaryCard(
+                  'Spent',
+                  total,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildSummaryCard(
+                  'Remaining',
+                  _expenseManager.calculateRemainingBudget(),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ),
 
 const SizedBox(height: 16),
 
@@ -274,6 +351,32 @@ prefixIcon: Icon(Icons.description),
 ),
 
 const SizedBox(height: 12),
+
+  TextField(
+    controller: _budgetController,
+    keyboardType: const TextInputType.numberWithOptions(
+      decimal: true,
+    ),
+    decoration: const InputDecoration(
+      labelText: 'Monthly Budget',
+      hintText: 'e.g. 2000.00',
+      border: OutlineInputBorder(),
+      prefixIcon: Icon(Icons.account_balance_wallet),
+    ),
+  ),
+
+  const SizedBox(height: 12),
+
+  SizedBox(
+    width: double.infinity,
+    child: OutlinedButton.icon(
+      onPressed: _setBudget,
+      icon: const Icon(Icons.save),
+      label: const Text('Set Budget'),
+    ),
+  ),
+
+  const SizedBox(height: 16),
 
 TextField(
 controller: _amountController,
