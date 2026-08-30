@@ -84,6 +84,18 @@ final List<String> _categories = [
 'Other',
 ];
 
+String _selectedFilter = 'All';
+
+List<Expense> _getFilteredExpenses() {
+  if (_selectedFilter == 'All') {
+    return _expenseManager.expenses;
+  }
+
+  return _expenseManager.getExpensesByCategory(
+    _selectedFilter,
+  );
+}
+
 void _setBudget() {
   final budget = double.tryParse(_budgetController.text);
 
@@ -281,8 +293,8 @@ void dispose() {
 
 @override
 Widget build(BuildContext context) {
-final expenses = _expenseManager.expenses;
-final total = _expenseManager.calculateTotal();
+  final expenses = _getFilteredExpenses();
+  final total = _expenseManager.calculateTotal();
 
 return Scaffold(
 appBar: AppBar(
@@ -426,9 +438,46 @@ label: const Text('Add Expense'),
 ),
 ),
 
-const SizedBox(height: 20),
+  const SizedBox(height: 20),
 
-Expanded(
+  Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      'Filter by category',
+      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ),
+
+  const SizedBox(height: 8),
+
+  SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: [
+        'All',
+        ..._categories,
+      ].map((category) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: ChoiceChip(
+            label: Text(category),
+            selected: _selectedFilter == category,
+            onSelected: (_) {
+              setState(() {
+                _selectedFilter = category;
+              });
+            },
+          ),
+        );
+      }).toList(),
+    ),
+  ),
+
+  const SizedBox(height: 12),
+
+  Expanded(
 child: _expenseManager.hasExpenses()
 ? ListView.builder(
 itemCount: expenses.length,
@@ -465,16 +514,22 @@ fontWeight: FontWeight.bold,
 IconButton(
 icon: const Icon(Icons.edit),
 tooltip: 'Edit',
-onPressed: () {
-_editExpense(index);
-},
+  onPressed: () {
+    final originalIndex =
+    _expenseManager.expenses.indexOf(expense);
+
+    _editExpense(originalIndex);
+  },
 ),
 IconButton(
 icon: const Icon(Icons.delete),
 tooltip: 'Delete',
-onPressed: () {
-_deleteExpense(index);
-},
+  onPressed: () {
+    final originalIndex =
+    _expenseManager.expenses.indexOf(expense);
+
+    _deleteExpense(originalIndex);
+  },
 ),
 ],
 ),
