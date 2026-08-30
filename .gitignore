@@ -1,0 +1,18 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub/
+build/
+
+# IDEs
+.idea/
+*.iml
+
+# Flutter generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# Windows
+Thumbs.db
+Desktop.ini
