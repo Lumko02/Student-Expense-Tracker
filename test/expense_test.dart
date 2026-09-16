@@ -1,5 +1,5 @@
+import 'package:student_expense_tracker/models/expense.dart';
 import 'package:test/test.dart';
-import 'package:student_expense_tracker/expense.dart';
 
 void main() {
   test('Create an expense', () {

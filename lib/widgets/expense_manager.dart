@@ -2,19 +2,18 @@ import 'expense.dart';
 
 class ExpenseManager {
   final List<Expense> expenses = [];
-  double budget = 0;
+
+  double budget = 0.0;
 
   void addExpense(Expense expense) {
     expenses.add(expense);
   }
 
   double calculateTotal() {
-    double total = 0;
-
-    for (final expense in expenses) {
-      total += expense.amount;
-    }
-    return total;
+    return expenses.fold(
+      0.0,
+          (total, expense) => total + expense.amount,
+    );
   }
 
   double calculateRemainingBudget() {
@@ -32,27 +31,16 @@ class ExpenseManager {
   }
 
   List<Expense> getExpensesByCategory(String category) {
-    final result = <Expense>[];
-
-    for (final expense in expenses) {
-      if (expense.category == category) {
-        result.add(expense);
-      }
-    }
-
-    return result;
+    return expenses
+        .where((expense) => expense.category == category)
+        .toList();
   }
 
   double calculateCategoryTotal(String category) {
-    double total = 0;
-
-    for (final expense in expenses) {
-      if (expense.category == category) {
-        total += expense.amount;
-      }
-    }
-
-    return total;
+    return getExpensesByCategory(category).fold(
+      0.0,
+          (total, expense) => total + expense.amount,
+    );
   }
 
   void editExpense(
