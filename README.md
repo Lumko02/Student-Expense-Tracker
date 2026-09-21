@@ -34,6 +34,13 @@ The application can run in a desktop browser and can also be accessed from a mob
 
 Expenses are also stored locally using **SharedPreferences and JSON**, meaning recorded expenses remain available after the application is refreshed or reopened.
 
+## WeThinkCode_ Verification
+
+**Elective:** Mobile Development  
+**Verification Code:** `WTC-JY9D7ZSV`
+
+This repository forms part of my proof of work for the WeThinkCode_ Mobile Development elective.
+
 ### 🎯 Project Evidence
 
 This repository contains:
