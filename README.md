@@ -34,6 +34,18 @@ The application can run in a desktop browser and can also be accessed from a mob
 
 Expenses are also stored locally using **SharedPreferences and JSON**, meaning recorded expenses remain available after the application is refreshed or reopened.
 
+### 🎯 Project Evidence
+
+This repository contains:
+
+- ✅ Complete Flutter and Dart source code
+- ✅ Individual Git commit history
+- ✅ Unit and widget tests
+- ✅ Application screenshots
+- ✅ Mobile browser testing on an iPhone
+- ✅ Project documentation
+- ✅ Persistent local expense storage
+
 ---
 
 ## ✨ What Can It Do?
@@ -68,43 +80,71 @@ Expenses are also stored locally using **SharedPreferences and JSON**, meaning r
 
 ## 🖥️ The Application
 
-The application provides a simple dashboard where users can manage their budget and expenses.
+The Student Expense Tracker provides a clean and responsive interface for managing a monthly budget and everyday expenses.
 
-```text
-┌──────────────────────────────────────────────┐
-│          🎒 Student Expense Tracker          │
-├──────────────────────────────────────────────┤
-│                                              │
-│                 BUDGET                       │
-│               R 2 000.00                     │
-│                                              │
-│              TOTAL EXPENSES                  │
-│                R 850.00                      │
-│                                              │
-├──────────────────────────────────────────────┤
-│  Description                                 │
-│  ┌────────────────────────────────────────┐  │
-│  │ Lunch                                  │  │
-│  └────────────────────────────────────────┘  │
-│                                              │
-│  Amount                                      │
-│  ┌────────────────────────────────────────┐  │
-│  │ 50.00                                  │  │
-│  └────────────────────────────────────────┘  │
-│                                              │
-│  Category                                    │
-│  ┌────────────────────────────────────────┐  │
-│  │ Food                              ▼    │  │
-│  └────────────────────────────────────────┘  │
-│                                              │
-│           ＋ ADD EXPENSE                     │
-│                                              │
-├──────────────────────────────────────────────┤
-│ 🍔 Lunch                    R50.00   ✏️ 🗑️  │
-│ 🚌 Taxi                     R30.00   ✏️ 🗑️  │
-│ 📚 Textbook                R350.00   ✏️ 🗑️  │
-└──────────────────────────────────────────────┘
-```
+The screenshots below were captured while running the **Flutter Web application on an iPhone through Safari**.
+
+### 💜 Expense Dashboard
+
+The main dashboard displays the amount spent, monthly budget, remaining balance, transaction history, categories, and options to edit or delete expenses.
+
+<p align="center">
+  <img src="screenshots/expense-dashboard.png" width="320" alt="Student Expense Tracker expense dashboard">
+</p>
+
+<p align="center">
+  <sub>Dashboard showing a R120 Food expense with a R3000 monthly budget.</sub>
+</p>
+
+---
+
+### 💸 Add an Expense
+
+Users can add an expense by entering a description, amount, and category.
+
+<p align="center">
+  <img src="screenshots/add-expense.png" width="320" alt="Student Expense Tracker add expense screen">
+</p>
+
+<p align="center">
+  <sub>Adding a Lunch expense under the Food category.</sub>
+</p>
+
+---
+
+### 💰 Set a Monthly Budget
+
+The budget editor allows users to set the amount they want to manage for the month.
+
+<p align="center">
+  <img src="screenshots/set-budget.png" width="320" alt="Student Expense Tracker monthly budget screen">
+</p>
+
+<p align="center">
+  <sub>Setting a R3000 monthly budget.</sub>
+</p>
+
+---
+
+### 🧾 Empty Dashboard
+
+When no expenses have been recorded, the application displays an empty state and encourages the user to record their first purchase.
+
+<p align="center">
+  <img src="screenshots/empty-dashboard.png" width="320" alt="Student Expense Tracker empty dashboard">
+</p>
+
+<p align="center">
+  <sub>The dashboard before a budget or expense has been added.</sub>
+</p>
+
+---
+
+### 📱 Mobile Browser Support
+
+The screenshots demonstrate the Flutter Web application's responsive layout on an iPhone.
+
+The application runs on a local Flutter web server and can be accessed from Safari when the development computer and iPhone are connected to the same network.
 
 ---
 
@@ -153,9 +193,9 @@ Expense(
 
 Each expense contains:
 
-* `description`
-* `amount`
-* `category`
+- `description`
+- `amount`
+- `category`
 
 The model also supports JSON serialization using:
 
@@ -253,10 +293,10 @@ Adding, editing, and deleting an expense updates the stored expense data.
 
 You'll need:
 
-* Flutter SDK
-* Dart SDK
-* Google Chrome or another supported browser
-* Git
+- Flutter SDK
+- Dart SDK
+- Google Chrome or another supported browser
+- Git
 
 Check your Flutter installation:
 
@@ -387,11 +427,11 @@ The Student Expense Tracker should now load on the iPhone. 📱✨
 
 If the page does not load, check that:
 
-* Both devices are connected to the same Wi-Fi network
-* The Flutter web server is still running
-* The correct IPv4 address is being used
-* The correct port is being used
-* Windows Firewall allows the connection on the private network
+- Both devices are connected to the same Wi-Fi network
+- The Flutter web server is still running
+- The correct IPv4 address is being used
+- The correct port is being used
+- Windows Firewall allows the connection on the private network
 
 ---
 
@@ -433,15 +473,15 @@ The current test suite contains:
 
 Tests cover functionality including:
 
-* Creating expenses
-* Adding expenses
-* Calculating totals
-* Editing expenses
-* Deleting expenses
-* Budget calculations
-* Category filtering
-* Category totals
-* Loading the Student Expense Tracker Flutter application
+- Creating expenses
+- Adding expenses
+- Calculating totals
+- Editing expenses
+- Deleting expenses
+- Budget calculations
+- Category filtering
+- Category totals
+- Loading the Student Expense Tracker Flutter application
 
 Before running the application, the project can also be checked with:
 
@@ -476,6 +516,12 @@ No issues found!
 
 ```text
 Student-Expense-Tracker/
+│
+├── 📂 screenshots/
+│   ├── add-expense.png
+│   ├── empty-dashboard.png
+│   ├── expense-dashboard.png
+│   └── set-budget.png
 │
 ├── 📂 lib/
 │   ├── main.dart
@@ -561,12 +607,12 @@ This means the data is stored on the device/browser rather than in an online dat
 
 Therefore:
 
-* Expenses are not synced between different devices
-* There are no user accounts
-* There is no cloud database
-* Clearing browser/app storage may remove saved expense data
-* The budget itself is not currently persisted between sessions
-* A native iOS build still requires macOS and Xcode
+- Expenses are not synced between different devices
+- There are no user accounts
+- There is no cloud database
+- Clearing browser/app storage may remove saved expense data
+- The budget itself is not currently persisted between sessions
+- A native iOS build still requires macOS and Xcode
 
 These limitations are outside the scope of the current version.
 
@@ -576,33 +622,35 @@ These limitations are outside the scope of the current version.
 
 ## ✅ Completed
 
-* [x] Add expenses
-* [x] Edit expenses
-* [x] Delete expenses
-* [x] Budget calculations
-* [x] Category filtering
-* [x] Category totals
-* [x] Reusable expense cards
-* [x] Reusable budget card
-* [x] Unit testing
-* [x] Widget testing
-* [x] Flutter Web support
-* [x] Mobile browser testing
-* [x] JSON serialization
-* [x] Persistent expense storage
+- [x] Add expenses
+- [x] Edit expenses
+- [x] Delete expenses
+- [x] Budget calculations
+- [x] Category filtering
+- [x] Category totals
+- [x] Reusable expense cards
+- [x] Reusable budget card
+- [x] Unit testing
+- [x] Widget testing
+- [x] Flutter Web support
+- [x] Mobile browser testing
+- [x] JSON serialization
+- [x] Persistent expense storage
+- [x] Project screenshots
+- [x] Project documentation
 
 ### 🔮 Possible Future Improvements
 
-* [ ] Persist budget between sessions
-* [ ] Expense search
-* [ ] Monthly expense reports
-* [ ] Spending charts
-* [ ] Cloud storage
-* [ ] User authentication
-* [ ] SQLite database
-* [ ] Flutter Android application
-* [ ] Native Flutter iOS application
-* [ ] Dark mode
+- [ ] Persist budget between sessions
+- [ ] Expense search
+- [ ] Monthly expense reports
+- [ ] Spending charts
+- [ ] Cloud storage
+- [ ] User authentication
+- [ ] SQLite database
+- [ ] Flutter Android application
+- [ ] Native Flutter iOS application
+- [ ] Dark mode
 
 > **Version 1 is complete.** Future improvements are optional and are not required for the current project.
 
@@ -676,6 +724,8 @@ with:
 No issues found!
 ```
 
+The repository includes the source code, documentation, screenshots, tests, and individual development history for the project.
+
 ---
 
 # 👤 Author
@@ -697,4 +747,3 @@ No issues found!
   <br>
   <sub>Learning by building.</sub>
 </p>
-
