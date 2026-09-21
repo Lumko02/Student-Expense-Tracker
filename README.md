@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/Dart-3.12.2-0175C2?style=for-the-badge&logo=dart&logoColor=white">
   <img src="https://img.shields.io/badge/Platform-Web-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white">
   <img src="https://img.shields.io/badge/Tests-12%20Passing-success?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Status-Core%20App%20Complete-success?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Status-Version%201%20Complete-success?style=for-the-badge">
 </p>
 
 ---
@@ -26,11 +26,13 @@
 
 > **Where is all my money going?**
 
-The application allows students to record their daily expenses, organise them into categories, calculate their total spending, manage a budget, and make changes to previously recorded expenses.
+The application allows students to record their daily expenses, organise them into categories, calculate their total spending, manage a budget, filter transactions, and make changes to previously recorded expenses.
 
 The project began as a **Dart command-line application** and was later transformed into a **Flutter application**, introducing a graphical user interface while keeping the original Dart business logic.
 
 The application can run in a desktop browser and can also be accessed from a mobile device, including an **iPhone**, through a local Flutter web server.
+
+Expenses are also stored locally using **SharedPreferences and JSON**, meaning recorded expenses remain available after the application is refreshed or reopened.
 
 ---
 
@@ -41,13 +43,16 @@ The application can run in a desktop browser and can also be accessed from a mob
 | 💰 **Add Expenses**          | Record an expense with a description, amount and category                         |
 | 📊 **Track Spending**        | Automatically calculate total expenses                                            |
 | 🏷️ **Categories**           | Organise expenses into useful spending categories                                 |
+| 🔎 **Category Filtering**    | Filter transactions by expense category                                           |
 | ✏️ **Edit Expenses**         | Update an existing expense                                                        |
 | 🗑️ **Delete Expenses**      | Remove expenses that are no longer needed                                         |
 | 🧮 **Budget Logic**          | Calculate spending and remaining budget                                           |
 | 💳 **Budget Card**           | Display budget information in a reusable UI component                             |
 | 🧾 **Expense Cards**         | Display individual expenses using reusable cards                                  |
+| 💾 **Persistent Storage**    | Save expenses locally so they survive refreshes                                   |
 | 🌐 **Web App**               | Run the application in a web browser                                              |
 | 📱 **Mobile Browser Access** | Access the running application from an iPhone or other device on the same network |
+| 🧪 **Automated Testing**     | Maintain application behaviour with unit and widget tests                         |
 
 ### Categories
 
@@ -105,12 +110,12 @@ The application provides a simple dashboard where users can manage their budget 
 
 ## 🧠 How It Works
 
-The project separates the **user interface**, **business logic**, **data**, and reusable **widgets**.
+The project separates the **user interface**, **business logic**, **data**, **persistent storage**, and reusable **widgets**.
 
 ```text
                     ┌──────────────────┐
                     │   Flutter UI     │
-                    │  Home Screen     │
+                    │   Home Screen    │
                     └────────┬─────────┘
                              │
                  ┌───────────┴───────────┐
@@ -126,11 +131,12 @@ The project separates the **user interface**, **business logic**, **data**, and 
                                │ Business Logic   │
                                └────────┬─────────┘
                                         │
-                                        ▼
-                               ┌──────────────────┐
-                               │     Expense      │
-                               │      Object      │
-                               └──────────────────┘
+                         ┌──────────────┴──────────────┐
+                         ▼                             ▼
+                ┌──────────────────┐         ┌──────────────────┐
+                │     Expense      │         │ SharedPreferences│
+                │      Model       │         │ + JSON Storage   │
+                └──────────────────┘         └──────────────────┘
 ```
 
 ### `Expense`
@@ -151,9 +157,18 @@ Each expense contains:
 * `amount`
 * `category`
 
+The model also supports JSON serialization using:
+
+```dart
+toJson()
+fromJson()
+```
+
+This allows expense objects to be converted into data that can be stored and restored.
+
 ### `ExpenseManager`
 
-Responsible for managing expenses and performing calculations.
+Responsible for managing expenses, performing calculations, and handling persistent expense storage.
 
 ```dart
 addExpense()
@@ -163,6 +178,8 @@ calculateTotal()
 calculateRemainingBudget()
 getExpensesByCategory()
 calculateCategoryTotal()
+saveExpenses()
+loadExpenses()
 ```
 
 ### `ExpenseCard`
@@ -179,16 +196,54 @@ Separating the budget display into its own component keeps the user interface or
 
 ---
 
+## 💾 Persistent Storage
+
+The application uses **SharedPreferences** together with **JSON serialization** to store expenses locally.
+
+When expenses are saved:
+
+```text
+Expense Object
+      ↓
+   toJson()
+      ↓
+JSON Data
+      ↓
+SharedPreferences
+```
+
+When the application starts:
+
+```text
+SharedPreferences
+      ↓
+Saved JSON Data
+      ↓
+  fromJson()
+      ↓
+Expense Object
+```
+
+This means:
+
+> **Refreshing the application no longer deletes saved expenses. 🎉**
+
+Adding, editing, and deleting an expense updates the stored expense data.
+
+---
+
 ## 🛠️ Built With
 
-| Technology          | Purpose                        |
-| ------------------- | ------------------------------ |
-| **Dart**            | Application and business logic |
-| **Flutter**         | User interface                 |
-| **Flutter Web**     | Browser-based application      |
-| **Material Design** | UI components                  |
-| **Flutter Testing** | Unit and widget testing        |
-| **Git & GitHub**    | Version control                |
+| Technology            | Purpose                        |
+| --------------------- | ------------------------------ |
+| **Dart**              | Application and business logic |
+| **Flutter**           | User interface                 |
+| **Flutter Web**       | Browser-based application      |
+| **Material Design**   | UI components                  |
+| **SharedPreferences** | Persistent local storage       |
+| **JSON**              | Expense serialization          |
+| **Flutter Testing**   | Unit and widget testing        |
+| **Git & GitHub**      | Version control                |
 
 ---
 
@@ -400,6 +455,21 @@ A clean analysis currently produces:
 No issues found!
 ```
 
+### Current Quality Status
+
+```text
+✅ 12 automated tests passing
+✅ No Flutter analyzer issues
+✅ Add expense working
+✅ Edit expense working
+✅ Delete expense working
+✅ Category filtering working
+✅ Budget tracking working
+✅ Persistent expense storage working
+✅ Flutter Web working
+✅ Mobile browser testing working
+```
+
 ---
 
 # 📁 Project Structure
@@ -408,12 +478,16 @@ No issues found!
 Student-Expense-Tracker/
 │
 ├── 📂 lib/
-│   ├── expense.dart
-│   ├── expense_manager.dart
 │   ├── main.dart
+│   │
+│   ├── 📂 models/
+│   │   └── expense.dart
 │   │
 │   ├── 📂 screens/
 │   │   └── home_screen.dart
+│   │
+│   ├── 📂 services/
+│   │   └── expense_manager.dart
 │   │
 │   └── 📂 widgets/
 │       ├── budget_card.dart
@@ -440,7 +514,7 @@ Student-Expense-Tracker/
 
 # 🔄 From CLI → Flutter
 
-One of the goals of this project is learning how an existing Dart application can evolve into a graphical application.
+One of the goals of this project was learning how an existing Dart application can evolve into a graphical application.
 
 ### Version 1 — Dart CLI
 
@@ -457,7 +531,7 @@ ExpenseManager
 Expense
 ```
 
-### Version 2 — Flutter
+### Flutter Application
 
 ```text
 Browser / Mobile Browser
@@ -470,9 +544,9 @@ Browser / Mobile Browser
           │
           ▼
    ExpenseManager
-          │
-          ▼
-       Expense
+       │       │
+       ▼       ▼
+   Expense   Storage
 ```
 
 The underlying expense-management logic remains reusable while the user interface becomes more accessible and interactive.
@@ -481,43 +555,62 @@ The underlying expense-management logic remains reusable while the user interfac
 
 # 🚧 Current Limitations
 
-The application currently stores expenses **in memory**.
+The application stores expenses locally using **SharedPreferences**.
 
-That means:
+This means the data is stored on the device/browser rather than in an online database.
 
-> Refreshing the application = goodbye expenses. 🥲
+Therefore:
 
-No database or persistent storage has been implemented yet.
+* Expenses are not synced between different devices
+* There are no user accounts
+* There is no cloud database
+* Clearing browser/app storage may remove saved expense data
+* The budget itself is not currently persisted between sessions
+* A native iOS build still requires macOS and Xcode
 
-The application can currently be viewed on an iPhone through its web version, but a native iOS build still requires macOS and Xcode.
+These limitations are outside the scope of the current version.
 
 ---
 
 # 🗺️ Roadmap
 
-### 🔜 Next
+## ✅ Completed
 
-* [ ] Persistent storage
-* [ ] Improve budget management
-* [ ] Category filtering
+* [x] Add expenses
+* [x] Edit expenses
+* [x] Delete expenses
+* [x] Budget calculations
+* [x] Category filtering
+* [x] Category totals
+* [x] Reusable expense cards
+* [x] Reusable budget card
+* [x] Unit testing
+* [x] Widget testing
+* [x] Flutter Web support
+* [x] Mobile browser testing
+* [x] JSON serialization
+* [x] Persistent expense storage
+
+### 🔮 Possible Future Improvements
+
+* [ ] Persist budget between sessions
 * [ ] Expense search
-* [ ] Improve responsive mobile layout
-
-### 🚀 Future
-
 * [ ] Monthly expense reports
 * [ ] Spending charts
-* [ ] JSON storage
+* [ ] Cloud storage
+* [ ] User authentication
 * [ ] SQLite database
 * [ ] Flutter Android application
 * [ ] Native Flutter iOS application
 * [ ] Dark mode
 
+> **Version 1 is complete.** Future improvements are optional and are not required for the current project.
+
 ---
 
 # 💡 What I'm Learning
 
-This project is helping me practise:
+This project helped me practise:
 
 ```text
 Dart
@@ -534,6 +627,10 @@ Reusable UI Components
   ↓
 State Management
   ↓
+JSON Serialization
+  ↓
+Persistent Storage
+  ↓
 Web Development
   ↓
 Responsive Design
@@ -541,7 +638,43 @@ Responsive Design
 Application Architecture
 ```
 
-More importantly, it gives me a place to experiment, break things, fix them, and understand **why** they work.
+More importantly, it gave me a place to experiment, break things, fix them, and understand **why** they work.
+
+---
+
+# 🏁 Project Status
+
+## Version 1 — Complete ✅
+
+The core **Student Expense Tracker** application is complete.
+
+It can:
+
+```text
+💰 Manage a student budget
+💸 Add expenses
+✏️ Edit expenses
+🗑️ Delete expenses
+🏷️ Filter expenses by category
+📊 Calculate spending totals
+💵 Calculate remaining budget
+💾 Persist expenses between sessions
+🌐 Run as a Flutter Web application
+📱 Run in an iPhone mobile browser
+🧪 Pass all 12 automated tests
+```
+
+The project also currently passes:
+
+```text
+flutter analyze
+```
+
+with:
+
+```text
+No issues found!
+```
 
 ---
 
@@ -564,3 +697,4 @@ More importantly, it gives me a place to experiment, break things, fix them, and
   <br>
   <sub>Learning by building.</sub>
 </p>
+
