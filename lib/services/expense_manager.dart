@@ -1,8 +1,40 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/expense.dart';
 
 class ExpenseManager {
   final List<Expense> expenses = [];
   double budget = 0;
+
+  static const String _expensesKey = 'expenses';
+
+  Future<void> saveExpenses() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final expenseList = expenses
+        .map((expense) => jsonEncode(expense.toJson()))
+        .toList();
+
+    await prefs.setStringList(_expensesKey, expenseList);
+  }
+
+  Future<void> loadExpenses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedExpenses = prefs.getStringList(_expensesKey);
+
+    if (savedExpenses == null) {
+      return;
+    }
+
+    expenses.clear();
+
+    for (final savedExpense in savedExpenses) {
+      final json = jsonDecode(savedExpense) as Map<String, dynamic>;
+      expenses.add(Expense.fromJson(json));
+    }
+  }
 
   void addExpense(Expense expense) {
     expenses.add(expense);
@@ -14,6 +46,7 @@ class ExpenseManager {
     for (final expense in expenses) {
       total += expense.amount;
     }
+
     return total;
   }
 

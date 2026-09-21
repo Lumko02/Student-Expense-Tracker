@@ -14,6 +14,20 @@ class ExpenseHomePage extends StatefulWidget {
 class _ExpenseHomePageState extends State<ExpenseHomePage> {
   final ExpenseManager _manager = ExpenseManager();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadExpenses();
+  }
+
+  Future<void> _loadExpenses() async {
+    await _manager.loadExpenses();
+
+    if (!mounted) return;
+
+    setState(() {});
+  }
+
   final _descriptionController = TextEditingController();
   final _amountController = TextEditingController();
   final _budgetController = TextEditingController();
@@ -78,7 +92,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
     _showMessage('Budget updated successfully ✨');
   }
 
-  void _addExpense() {
+  Future<void> _addExpense() async {
     final description = _descriptionController.text.trim();
     final amount = double.tryParse(_amountController.text.trim());
 
@@ -92,6 +106,8 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
         Expense(description, amount, _selectedCategory),
       );
     });
+
+    await _manager.saveExpenses();
 
     _descriptionController.clear();
     _amountController.clear();
@@ -196,10 +212,13 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
                         width: double.infinity,
                         height: 54,
                         child: FilledButton.icon(
-                          onPressed: () {
+                          onPressed: () async {
                             _selectedCategory = category;
-                            _addExpense();
-                            Navigator.pop(sheetContext);
+                            await _addExpense();
+
+                            if (sheetContext.mounted) {
+                              Navigator.pop(sheetContext);
+                            }
                           },
                           icon: const Icon(Icons.add_rounded),
                           label: const Text(
@@ -283,7 +302,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
               child: const Text('Cancel'),
             ),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 final description = descriptionController.text.trim();
                 final amount = double.tryParse(amountController.text);
 
@@ -299,6 +318,10 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
                     category,
                   );
                 });
+
+                await _manager.saveExpenses();
+
+                if (!mounted || !dialogContext.mounted) return;
 
                 Navigator.pop(dialogContext);
                 _showMessage('Expense updated ✨');
@@ -339,6 +362,11 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
 
     if (shouldDelete == true) {
       setState(() => _manager.deleteExpense(index));
+
+      await _manager.saveExpenses();
+
+      if (!mounted) return;
+
       _showMessage('Expense deleted');
     }
   }
