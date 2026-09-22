@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Flutter-3.44.8-02569B?style=for-the-badge&logo=flutter&logoColor=white">
   <img src="https://img.shields.io/badge/Dart-3.12.2-0175C2?style=for-the-badge&logo=dart&logoColor=white">
   <img src="https://img.shields.io/badge/Platform-Web-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white">
-  <img src="https://img.shields.io/badge/Tests-12%20Passing-success?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Tests-14%20Passing-success?style=for-the-badge">
   <img src="https://img.shields.io/badge/Status-Version%201%20Complete-success?style=for-the-badge">
 </p>
 
@@ -32,11 +32,13 @@ The project began as a **Dart command-line application** and was later transform
 
 The application can run in a desktop browser and can also be accessed from a mobile device, including an **iPhone**, through a local Flutter web server.
 
-Expenses are also stored locally using **SharedPreferences and JSON**, meaning recorded expenses remain available after the application is refreshed or reopened.
+Expenses and the monthly budget are stored locally using **SharedPreferences and JSON**, meaning the user's financial information remains available after the application is refreshed or reopened.
+
+---
 
 ## WeThinkCode_ Verification
 
-**Elective:** Mobile Development  
+**Elective:** Mobile Development
 **Verification Code:** `WTC-JY9D7ZSV`
 
 This repository forms part of my proof of work for the WeThinkCode_ Mobile Development elective.
@@ -45,13 +47,14 @@ This repository forms part of my proof of work for the WeThinkCode_ Mobile Devel
 
 This repository contains:
 
-- ✅ Complete Flutter and Dart source code
-- ✅ Individual Git commit history
-- ✅ Unit and widget tests
-- ✅ Application screenshots
-- ✅ Mobile browser testing on an iPhone
-- ✅ Project documentation
-- ✅ Persistent local expense storage
+* ✅ Complete Flutter and Dart source code
+* ✅ Individual Git commit history
+* ✅ Unit and widget tests
+* ✅ Application screenshots
+* ✅ Mobile browser testing on an iPhone
+* ✅ Project documentation
+* ✅ Persistent local expense storage
+* ✅ Persistent monthly budget storage
 
 ---
 
@@ -67,8 +70,9 @@ This repository contains:
 | 🗑️ **Delete Expenses**      | Remove expenses that are no longer needed                                         |
 | 🧮 **Budget Logic**          | Calculate spending and remaining budget                                           |
 | 💳 **Budget Card**           | Display budget information in a reusable UI component                             |
+| 💾 **Persistent Budget**     | Save the monthly budget between application sessions                              |
 | 🧾 **Expense Cards**         | Display individual expenses using reusable cards                                  |
-| 💾 **Persistent Storage**    | Save expenses locally so they survive refreshes                                   |
+| 💾 **Persistent Expenses**   | Save expenses locally so they survive refreshes                                   |
 | 🌐 **Web App**               | Run the application in a web browser                                              |
 | 📱 **Mobile Browser Access** | Access the running application from an iPhone or other device on the same network |
 | 🧪 **Automated Testing**     | Maintain application behaviour with unit and widget tests                         |
@@ -122,6 +126,8 @@ Users can add an expense by entering a description, amount, and category.
 ### 💰 Set a Monthly Budget
 
 The budget editor allows users to set the amount they want to manage for the month.
+
+Once saved, the monthly budget is stored locally and automatically restored when the application is opened again.
 
 <p align="center">
   <img src="screenshots/set-budget.png" width="320" alt="Student Expense Tracker monthly budget screen">
@@ -200,9 +206,9 @@ Expense(
 
 Each expense contains:
 
-- `description`
-- `amount`
-- `category`
+* `description`
+* `amount`
+* `category`
 
 The model also supports JSON serialization using:
 
@@ -215,7 +221,7 @@ This allows expense objects to be converted into data that can be stored and res
 
 ### `ExpenseManager`
 
-Responsible for managing expenses, performing calculations, and handling persistent expense storage.
+Responsible for managing expenses, performing calculations, and handling persistent local storage.
 
 ```dart
 addExpense()
@@ -227,6 +233,8 @@ getExpensesByCategory()
 calculateCategoryTotal()
 saveExpenses()
 loadExpenses()
+saveBudget()
+loadBudget()
 ```
 
 ### `ExpenseCard`
@@ -271,11 +279,27 @@ Saved JSON Data
 Expense Object
 ```
 
+The monthly budget is also stored using SharedPreferences:
+
+```text
+Monthly Budget
+      ↓
+saveBudget()
+      ↓
+SharedPreferences
+      ↓
+loadBudget()
+      ↓
+Restored Budget
+```
+
 This means:
 
-> **Refreshing the application no longer deletes saved expenses. 🎉**
+> **Refreshing or reopening the application no longer removes saved expenses or resets the monthly budget. 🎉**
 
 Adding, editing, and deleting an expense updates the stored expense data.
+
+Changing the monthly budget also updates its stored value.
 
 ---
 
@@ -300,10 +324,10 @@ Adding, editing, and deleting an expense updates the stored expense data.
 
 You'll need:
 
-- Flutter SDK
-- Dart SDK
-- Google Chrome or another supported browser
-- Git
+* Flutter SDK
+* Dart SDK
+* Google Chrome or another supported browser
+* Git
 
 Check your Flutter installation:
 
@@ -434,11 +458,11 @@ The Student Expense Tracker should now load on the iPhone. 📱✨
 
 If the page does not load, check that:
 
-- Both devices are connected to the same Wi-Fi network
-- The Flutter web server is still running
-- The correct IPv4 address is being used
-- The correct port is being used
-- Windows Firewall allows the connection on the private network
+* Both devices are connected to the same Wi-Fi network
+* The Flutter web server is still running
+* The correct IPv4 address is being used
+* The correct port is being used
+* Windows Firewall allows the connection on the private network
 
 ---
 
@@ -475,20 +499,23 @@ flutter test
 The current test suite contains:
 
 ```text
-12 tests passing ✅
+14 tests passing ✅
 ```
 
 Tests cover functionality including:
 
-- Creating expenses
-- Adding expenses
-- Calculating totals
-- Editing expenses
-- Deleting expenses
-- Budget calculations
-- Category filtering
-- Category totals
-- Loading the Student Expense Tracker Flutter application
+* Creating expenses
+* Adding expenses
+* Calculating totals
+* Editing expenses
+* Deleting expenses
+* Budget calculations
+* Saving the monthly budget
+* Loading a saved monthly budget
+* Handling an empty saved budget
+* Category filtering
+* Category totals
+* Loading the Student Expense Tracker Flutter application
 
 Before running the application, the project can also be checked with:
 
@@ -496,7 +523,7 @@ Before running the application, the project can also be checked with:
 flutter analyze
 ```
 
-A clean analysis currently produces:
+A clean analysis produces:
 
 ```text
 No issues found!
@@ -505,14 +532,14 @@ No issues found!
 ### Current Quality Status
 
 ```text
-✅ 12 automated tests passing
-✅ No Flutter analyzer issues
+✅ 14 automated tests passing
 ✅ Add expense working
 ✅ Edit expense working
 ✅ Delete expense working
 ✅ Category filtering working
 ✅ Budget tracking working
 ✅ Persistent expense storage working
+✅ Persistent budget storage working
 ✅ Flutter Web working
 ✅ Mobile browser testing working
 ```
@@ -608,20 +635,19 @@ The underlying expense-management logic remains reusable while the user interfac
 
 # 🚧 Current Limitations
 
-The application stores expenses locally using **SharedPreferences**.
+The application currently stores its data locally using **SharedPreferences**.
 
 This means the data is stored on the device/browser rather than in an online database.
 
 Therefore:
 
-- Expenses are not synced between different devices
-- There are no user accounts
-- There is no cloud database
-- Clearing browser/app storage may remove saved expense data
-- The budget itself is not currently persisted between sessions
-- A native iOS build still requires macOS and Xcode
+* Expenses are not synced between different devices
+* There are no user accounts
+* There is no cloud database
+* Clearing browser/app storage may remove saved data
+* A native iOS build still requires macOS and Xcode
 
-These limitations are outside the scope of the current version.
+These limitations are outside the scope of the current version and provide opportunities for future development.
 
 ---
 
@@ -629,37 +655,37 @@ These limitations are outside the scope of the current version.
 
 ## ✅ Completed
 
-- [x] Add expenses
-- [x] Edit expenses
-- [x] Delete expenses
-- [x] Budget calculations
-- [x] Category filtering
-- [x] Category totals
-- [x] Reusable expense cards
-- [x] Reusable budget card
-- [x] Unit testing
-- [x] Widget testing
-- [x] Flutter Web support
-- [x] Mobile browser testing
-- [x] JSON serialization
-- [x] Persistent expense storage
-- [x] Project screenshots
-- [x] Project documentation
+* [x] Add expenses
+* [x] Edit expenses
+* [x] Delete expenses
+* [x] Budget calculations
+* [x] Category filtering
+* [x] Category totals
+* [x] Reusable expense cards
+* [x] Reusable budget card
+* [x] Unit testing
+* [x] Widget testing
+* [x] Flutter Web support
+* [x] Mobile browser testing
+* [x] JSON serialization
+* [x] Persistent expense storage
+* [x] Persistent budget storage
+* [x] Project screenshots
+* [x] Project documentation
 
 ### 🔮 Possible Future Improvements
 
-- [ ] Persist budget between sessions
-- [ ] Expense search
-- [ ] Monthly expense reports
-- [ ] Spending charts
-- [ ] Cloud storage
-- [ ] User authentication
-- [ ] SQLite database
-- [ ] Flutter Android application
-- [ ] Native Flutter iOS application
-- [ ] Dark mode
+* [ ] Expense search
+* [ ] Monthly expense reports
+* [ ] Spending charts
+* [ ] Cloud storage
+* [ ] User authentication
+* [ ] SQLite database
+* [ ] Flutter Android application
+* [ ] Native Flutter iOS application
+* [ ] Dark mode
 
-> **Version 1 is complete.** Future improvements are optional and are not required for the current project.
+> **Version 1 is complete.** Future improvements are optional extensions that can continue growing the project.
 
 ---
 
@@ -714,21 +740,10 @@ It can:
 📊 Calculate spending totals
 💵 Calculate remaining budget
 💾 Persist expenses between sessions
+💾 Persist the monthly budget between sessions
 🌐 Run as a Flutter Web application
 📱 Run in an iPhone mobile browser
-🧪 Pass all 12 automated tests
-```
-
-The project also currently passes:
-
-```text
-flutter analyze
-```
-
-with:
-
-```text
-No issues found!
+🧪 Pass all 14 automated tests
 ```
 
 The repository includes the source code, documentation, screenshots, tests, and individual development history for the project.
@@ -754,3 +769,4 @@ The repository includes the source code, documentation, screenshots, tests, and 
   <br>
   <sub>Learning by building.</sub>
 </p>
+

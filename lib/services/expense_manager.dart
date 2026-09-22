@@ -9,6 +9,17 @@ class ExpenseManager {
   double budget = 0;
 
   static const String _expensesKey = 'expenses';
+  static const String _budgetKey = 'budget';
+
+  Future<void> saveBudget() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_budgetKey, budget);
+  }
+
+  Future<void> loadBudget() async {
+    final prefs = await SharedPreferences.getInstance();
+    budget = prefs.getDouble(_budgetKey) ?? 0;
+  }
 
   Future<void> saveExpenses() async {
     final prefs = await SharedPreferences.getInstance();

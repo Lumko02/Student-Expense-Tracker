@@ -22,6 +22,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
 
   Future<void> _loadExpenses() async {
     await _manager.loadExpenses();
+    await _manager.loadBudget();
 
     if (!mounted) return;
 
@@ -80,14 +81,18 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
       );
   }
 
-  void _setBudget() {
+  Future<void> _setBudget() async {
     final budget = double.tryParse(_budgetController.text.trim());
+
     if (budget == null || budget <= 0) {
       _showMessage('Please enter a valid budget amount.');
       return;
     }
 
     setState(() => _manager.budget = budget);
+
+    await _manager.saveBudget();
+
     _budgetController.clear();
     _showMessage('Budget updated successfully ✨');
   }

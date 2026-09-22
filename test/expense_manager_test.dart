@@ -1,6 +1,7 @@
 import 'package:student_expense_tracker/models/expense.dart';
 import 'package:test/test.dart';
 import 'package:student_expense_tracker/services/expense_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   test('Add an expense', () {
@@ -128,5 +129,29 @@ void main() {
     expect(manager.expenses[0].description, 'Dinner');
     expect(manager.expenses[0].amount, 80.0);
     expect(manager.expenses[0].category, 'Food');
+  });
+
+  test('saves and loads budget', () async {
+    SharedPreferences.setMockInitialValues({});
+
+    final manager = ExpenseManager();
+    manager.budget = 2500.0;
+
+    await manager.saveBudget();
+
+    final newManager = ExpenseManager();
+    await newManager.loadBudget();
+
+    expect(newManager.budget, 2500.0);
+  });
+
+  test('loads zero when no budget has been saved', () async {
+    SharedPreferences.setMockInitialValues({});
+
+    final manager = ExpenseManager();
+
+    await manager.loadBudget();
+
+    expect(manager.budget, 0.0);
   });
 }
